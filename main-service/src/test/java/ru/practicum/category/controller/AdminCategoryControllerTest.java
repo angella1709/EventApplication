@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.category.dto.CategoryDto;
+import ru.practicum.category.model.Category;
 import ru.practicum.category.dto.NewCategoryDto;
 import ru.practicum.category.service.CategoryService;
 
@@ -45,7 +46,8 @@ public class AdminCategoryControllerTest {
 
     @Test
     void add_shouldReturnCategoryDtoAndStatusCreated() throws Exception {
-        when(categoryService.add(any())).thenReturn(categoryDto);
+        when(categoryService.add(any(NewCategoryDto.class)))
+                .thenReturn(new Category(1L, "Test Category"));
 
         mockMvc.perform(post("/admin/categories")
                         .content(mapper.writeValueAsString(newCategoryDto))
@@ -60,7 +62,8 @@ public class AdminCategoryControllerTest {
 
     @Test
     void update_shouldReturnCategoryDto() throws Exception {
-        when(categoryService.update(any(), any())).thenReturn(categoryDto);
+        when(categoryService.update(anyLong(), any(NewCategoryDto.class)))
+                .thenReturn(new Category(1L, "Updated Category"));
 
         mockMvc.perform(patch("/admin/categories/{catId}", 1)
                         .content(mapper.writeValueAsString(newCategoryDto))

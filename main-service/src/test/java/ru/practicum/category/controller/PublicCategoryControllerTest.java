@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.dto.NewCategoryDto;
 import ru.practicum.category.service.CategoryService;
+import ru.practicum.category.model.Category;
 
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class PublicCategoryControllerTest {
     void get_shouldReturnStatusOk() throws Exception {
         List<CategoryDto> categoryDtoList = List.of(categoryDto);
 
-        when(categoryService.getAll(any(), any())).thenReturn(categoryDtoList);
+        when(categoryService.getAll(anyInt(), anyInt()))
+                .thenReturn(List.of(new Category(1L, "Test Category")));
 
         mockMvc.perform(get("/categories")
                         .param("from", String.valueOf(0))
@@ -64,7 +66,8 @@ public class PublicCategoryControllerTest {
 
     @Test
     void getById_shouldReturnStatusOk() throws Exception {
-        when(categoryService.get(any())).thenReturn(categoryDto);
+        when(categoryService.get(anyLong()))
+                .thenReturn(new Category(1L, "Test Category"));
 
         mockMvc.perform(get("/categories/{categoryId}", 1)
                         .accept(MediaType.APPLICATION_JSON))

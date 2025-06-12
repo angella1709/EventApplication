@@ -99,7 +99,7 @@ public class CommentServiceTest {
         Mockito.when(commentRepository.save(any()))
                 .thenReturn(comment);
 
-        CommentDto commentDtoOutput = commentService.addUserComment(1L, 1L, newCommentDto);
+        Comment commentDtoOutput = commentService.addUserComment(1L, 1L, newCommentDto);
 
         assertNotNull(commentDtoOutput);
         assertEquals(commentDtoOutput.getText(), commentDto.getText());
@@ -121,7 +121,7 @@ public class CommentServiceTest {
         Mockito.when(commentRepository.save(any()))
                 .thenReturn(comment);
 
-        CommentDto commentDtoOutput = commentService.updateUserComment(1L, 1L, 1L, newCommentDtoToSet);
+        Comment commentDtoOutput = commentService.updateUserComment(1L, 1L, 1L, newCommentDtoToSet);
 
         assertNotNull(commentDtoOutput);
         assertEquals(commentDtoOutput.getText(), newCommentDtoToSet.getText());
@@ -133,7 +133,7 @@ public class CommentServiceTest {
         Mockito.when(commentRepository.findByIdAndUserIdAndEventId(any(), any(), any()))
                 .thenReturn(Optional.ofNullable(comment));
 
-        CommentDto commentDtoOutput = commentService.getUserEventComment(1L, 1L, 1L);
+        Comment commentDtoOutput = commentService.getUserEventComment(1L, 1L, 1L);
 
         assertNotNull(commentDtoOutput);
         assertEquals(commentMapper.commentToCommentDto(comment), commentDtoOutput);
@@ -145,7 +145,7 @@ public class CommentServiceTest {
         Mockito.when(commentRepository.findAllByUserIdAndStatus(any(), any()))
                 .thenReturn(List.of(comment));
 
-        List<CommentDto> commentDtoListOutput = commentService.getAllUserComments(1L);
+        List<Comment> commentDtoListOutput = commentService.getAllUserComments(1L);
 
         assertEquals(1, commentDtoListOutput.size());
         assertEquals(commentMapper.commentToCommentDto(comment), commentDtoListOutput.get(0));
@@ -157,7 +157,7 @@ public class CommentServiceTest {
         Mockito.when(commentRepository.findAllByUserIdAndEventIdAndStatus(any(), any(), any()))
                 .thenReturn(List.of(comment));
 
-        List<CommentDto> commentDtoListOutput = commentService.getAllUserEventComments(1L, 1L);
+        List<Comment> commentDtoListOutput = commentService.getAllUserEventComments(1L, 1L);
 
         assertEquals(1, commentDtoListOutput.size());
         assertEquals(commentMapper.commentToCommentDto(comment), commentDtoListOutput.get(0));

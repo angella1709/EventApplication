@@ -17,6 +17,7 @@ import ru.practicum.comment.model.CommentStatus;
 import ru.practicum.comment.service.CommentService;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.user.dto.UserShortDto;
+import ru.practicum.comment.model.Comment;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -64,8 +65,8 @@ public class AdminCommentControllerTest {
 
     @Test
     void getAdminComments_shouldReturnStatusOk() throws Exception {
-        when(commentService.getAdminComments(any(), any(), any(), any(), any(), any(), any(), any()))
-                .thenReturn(List.of(commentDto));
+        when(commentService.getAdminComments(anyString(), anyList(), anyList(), anyList(), any(), any(), anyInt(), anyInt()))
+                .thenReturn(List.of(new Comment()));
 
         mockMvc.perform(get("/admin/comments")
                         .param("text", "friend")
@@ -88,7 +89,8 @@ public class AdminCommentControllerTest {
 
     @Test
     void moderateAdminComments_shouldReturnStatusOk() throws Exception {
-        when(commentService.moderateAdminComments(any())).thenReturn(List.of(commentDto));
+        when(commentService.moderateAdminComments(any(CommentStatusUpdateRequest.class)))
+                .thenReturn(List.of(new Comment()));
 
         mockMvc.perform(patch("/admin/comments")
                         .content(mapper.writeValueAsString(updateRequest))

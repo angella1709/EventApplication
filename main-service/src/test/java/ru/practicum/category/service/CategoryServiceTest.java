@@ -57,7 +57,7 @@ public class CategoryServiceTest {
         Mockito.when(categoryRepository.save(any()))
                 .thenReturn(category);
 
-        CategoryDto categoryDtoOutput = categoryService.add(newCategoryDto);
+        Category categoryDtoOutput = categoryService.add(newCategoryDto);
 
         assertAll(
                 () -> assertEquals(categoryDtoOutput.getId(), category.getId()),
@@ -81,7 +81,7 @@ public class CategoryServiceTest {
         Mockito.when(categoryRepository.save(any()))
                 .thenReturn(categoryToSave);
 
-        CategoryDto savedCategoryDto = categoryService.update(categoryId, updateCategoryDto);
+        Category savedCategoryDto = categoryService.update(categoryId, updateCategoryDto);
 
         assertAll(
                 () -> assertEquals(savedCategoryDto.getId(), categoryId),
@@ -109,7 +109,7 @@ public class CategoryServiceTest {
         Mockito.when(categoryRepository.findById(categoryId))
                 .thenReturn(Optional.ofNullable(category));
 
-        CategoryDto receivedCategoryDto = categoryService.get(categoryId);
+        Category receivedCategoryDto = categoryService.get(categoryId);
 
         assertAll(
                 () -> assertEquals(receivedCategoryDto.getId(), categoryId),
@@ -145,7 +145,7 @@ public class CategoryServiceTest {
         when(categoryRepository.findAll(any(Pageable.class)))
                 .thenReturn(expectedList);
 
-        List<CategoryDto> categoryDtoList = categoryService.getAll(0, 10);
+        List<Category> categoryDtoList = categoryService.getAll(0, 10);
 
         assertAll(
                 () -> assertEquals(categoryDtoList.size(), 1),
@@ -160,7 +160,7 @@ public class CategoryServiceTest {
         when(categoryRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of()));
 
-        List<CategoryDto> categoryDtoList = categoryService.getAll(0, 10);
+        List<Category> categoryDtoList = categoryService.getAll(0, 10);
 
         assertTrue(categoryDtoList.isEmpty());
     }

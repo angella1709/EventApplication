@@ -16,6 +16,7 @@ import ru.practicum.comment.dto.NewCommentDto;
 import ru.practicum.comment.service.CommentService;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.user.dto.UserShortDto;
+import ru.practicum.comment.model.Comment;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +64,8 @@ public class PrivateCommentControllerTest {
 
     @Test
     void createUserComment_shouldReturnStatusCreated() throws Exception {
-        when(commentService.addUserComment(any(), any(), any())).thenReturn(commentDto);
+        when(commentService.addUserComment(anyLong(), anyLong(), any(NewCommentDto.class)))
+                .thenReturn(new Comment());
 
         mockMvc.perform(post("/users/{userId}/events/{eventId}/comments", 1, 1)
                         .content(mapper.writeValueAsString(newCommentDto))
@@ -80,7 +82,8 @@ public class PrivateCommentControllerTest {
 
     @Test
     void getUserComment_shouldReturnStatusOk() throws Exception {
-        when(commentService.getUserEventComment(any(), any(), any())).thenReturn(commentDto);
+        when(commentService.getUserEventComment(anyLong(), anyLong(), anyLong()))
+                .thenReturn(new Comment());
 
         mockMvc.perform(get("/users/{userId}/events/{eventId}/comments/{commentId}", 1, 1, 1))
                 .andExpect(status().isOk())
@@ -94,7 +97,8 @@ public class PrivateCommentControllerTest {
 
     @Test
     void getUserEventComments_shouldReturnStatusOk() throws Exception {
-        when(commentService.getAllUserEventComments(any(), any())).thenReturn(List.of(commentDto));
+        when(commentService.getAllUserEventComments(anyLong(), anyLong()))
+                .thenReturn(List.of(new Comment()));
 
         mockMvc.perform(get("/users/{userId}/events/{eventId}/comments", 1, 1))
                 .andExpect(status().isOk())
@@ -108,7 +112,8 @@ public class PrivateCommentControllerTest {
 
     @Test
     void getUserComments_shouldReturnStatusOk() throws Exception {
-        when(commentService.getAllUserComments(any())).thenReturn(List.of(commentDto));
+        when(commentService.getAllUserComments(anyLong()))
+                .thenReturn(List.of(new Comment()));
 
         mockMvc.perform(get("/users/{userId}/comments", 1))
                 .andExpect(status().isOk())
@@ -122,7 +127,8 @@ public class PrivateCommentControllerTest {
 
     @Test
     void updateUserComment_shouldReturnStatusOk() throws Exception {
-        when(commentService.updateUserComment(any(), any(), any(), any())).thenReturn(commentDto);
+        when(commentService.updateUserComment(anyLong(), anyLong(), anyLong(), any(NewCommentDto.class)))
+                .thenReturn(new Comment());
 
         mockMvc.perform(patch("/users/{userId}/events/{eventId}/comments/{commentId}", 1, 1, 1)
                         .content(mapper.writeValueAsString(newCommentDto))
